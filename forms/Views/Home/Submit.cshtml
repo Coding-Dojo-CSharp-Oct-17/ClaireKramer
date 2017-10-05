@@ -1,0 +1,20 @@
+<h1>Enter your information</h1>
+<div>
+    <ul>
+        @{
+            foreach(var error in ViewBag.errors) {
+                if(error.Errors.Count > 0) {
+                    <li>@error.Errors[0].ErrorMessage</li>
+                }
+            }
+        }
+    </ul>
+</div>
+<form action="/submit" method="POST">
+    <label for="FirstName">First Name: </label><input name="FirstName" type="text">
+    <label for="LastName">Last Name: </label><input name="LastName" type="text">
+    <label for="Age">Age: </label><input name="Age" type="number">
+    <label for="Email">Email: </label><input name="Email" type="email">
+    <label for="Password">Password: </label><input name="Password" type="password"><br>
+    <input type="submit" value="Submit">
+</form>
