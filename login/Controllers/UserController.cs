@@ -20,9 +20,17 @@ namespace login.Controllers
         [HttpPost]
         [Route("Register")]
         public IActionResult Register(User model) {
+            string query2 = $"SELECT id FROM user WHERE Email = '{model.Email}';";
+            List<Dictionary<string,object>> EmailCheck = DbConnector.Query(query2);
+            if(EmailCheck.Count > 1) {
+                ModelState.AddModelError("Email", "Email already in use");
+            }
             if(ModelState.IsValid) {
                 string query = $"INSERT INTO user (FirstName, LastName, Email, Password, Confirm, CreatedAt, UpdatedAt) VALUES('{model.FirstName}', '{model.LastName}', '{model.Email}', '{model.Password}', '{model.Confirm}', NOW(), NOW())";
                 DbConnector.Execute(query);
+                string query3 = $"SELECT id FROM user WHERE Email = '{model.Email}';"; 
+                List<Dictionary<string,object>> CurrentUser = DbConnector.Query(query3);
+                HttpContext.Session.SetInt32("id", (int)CurrentUser[0]["id"]);
                 return RedirectToAction("Success");
             }
             else {
@@ -35,16 +43,15 @@ namespace login.Controllers
         [Route("Login")]
         public IActionResult Login(string Email, string Password) {
             if(Email != null) {
-                string query = $"SELECT * FROM user WHERE Email = '{Email}'";
-                var CurrentUser = DbConnector.Query(query);
+                string query = $"SELECT * FROM user WHERE Email = '{Email}';";
+                List<Dictionary<string,object>> CurrentUser = DbConnector.Query(query);
                 if(CurrentUser != null) {
-                    Console.WriteLine(CurrentUser);
-                    return RedirectToAction("Success");
+                    if((string)CurrentUser[0]["Password"] == Password) {
+                        return RedirectToAction("Success");
+                    }
                 }
             }
-            ViewBag.Errors = new List<string>{
-                "Invalid Email or Password"
-            };
+            ViewBag.Error = "Invalid Email or Password";
             return View();
         }
 
