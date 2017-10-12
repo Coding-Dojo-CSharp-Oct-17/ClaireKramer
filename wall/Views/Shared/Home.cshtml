@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "The Wall";
+}
+
+<header>
+    <div class="container">
+        <h3>CodingDojo Wall</h3>
+        <h4>Welcome @ViewBag.Name</h4>
+        <a href="/logout">Log Out</a>
+    </div>
+</header>
+
+<div>
+    <h3>Post a Message</h3>
+    <div>
+        <form asp-controller="Wall" asp-action="PostMessage" method="POST">
+            <span asp-validation-for="Content"></span><input asp-for="Content"><br>
+            <input type="submit" value="Post Message">
+        </form>
+    </div>
+</div>
+
+<div>
+    @{
+        foreach (var message in @ViewBag.AllMessages) {
+            <p>@message["created_at"]</p>
+            <p>@message["message"]</p>
+
+            <div>
+                <form asp-controller="Wall" asp-action="PostComment" method="POST">
+                    <input type="hidden" name="UserId" value="@ViewBag.UserId">
+                    <input type="hidden" name="MessageId" value="@message["id"]">
+                    <span asp-validation-for="Content"></span><input asp-for="Content"><br>
+                    <input type="submit" value="Post Comment">
+                </form>
+            </div>
+        }
+    }
+</div>
