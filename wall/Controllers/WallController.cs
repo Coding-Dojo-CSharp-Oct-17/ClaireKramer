@@ -11,6 +11,9 @@ namespace wall.Controllers {
     public class WallController : Controller {
         [HttpGet]
         [Route("Home")]
+
+        //Note(Devon):
+        // It is more common to make Index method here, and use Views folder structure to determine which controller maps to which view file, rather than serve only Shared Views.
         public IActionResult Home() {
             if(HttpContext.Session.GetInt32("userId") == null) {
                 return RedirectToAction("Index");

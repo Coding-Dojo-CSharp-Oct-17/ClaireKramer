@@ -12,6 +12,9 @@ namespace wall.Controllers
     public class UserController : Controller
     {
         // GET: /Home/
+
+        //NOTE(Devon):
+        //Claire, very nice work overall!  see some of my comments for some ways to improve.
         [HttpGet]
         [Route("")]
         public IActionResult Index()
@@ -37,6 +40,7 @@ namespace wall.Controllers
                 return RedirectToAction("Home", "Wall");
             }
             else {
+                //NOTE(Devon):  Do you need to use ViewBag here?
                 ViewBag.errors = ModelState.Values;
                 return View();
             }
