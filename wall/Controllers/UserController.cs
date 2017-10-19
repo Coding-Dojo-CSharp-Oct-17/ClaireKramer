@@ -5,13 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using DbConnection;
 using wall.Models;
-using wall.Controllers;
 
 namespace wall.Controllers
 {
     public class UserController : Controller
     {
-        // GET: /Home/
         [HttpGet]
         [Route("")]
         public IActionResult Index()

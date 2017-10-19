@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "The Wall";
+}
+
+@model wall.Models.Message
+
+
+
+<div class="row">
+    <h3>CodingDojo Wall | Welcome @ViewBag.Name! | <a href="/logout">Log Out</a></h3>
+    <hr>
+</div>
+
+
+<div class="two-thirds column">
+    <h3>Post a Message</h3>
+    <div>
+        <form asp-controller="Wall" asp-action="PostMessage" method="POST">
+            <span asp-validation-for="Content"></span><input asp-for="Content"><br>
+            <input type="submit" value="Post Message">
+        </form>
+    </div>
+</div>
+
+<div class="two-thirds column">
+        @foreach(var message in @ViewBag.AllMessages) {
+            <p><strong>@message["first_name"] @message["last_name"] - @message["created_at"].ToString("D")</strong></p>
+            <p>@message["message"]</p>
+   
+            <div class="three-fifths column">
+                    @foreach(var comment in @ViewBag.AllComments) {
+                        @if(comment["message_id"]  == message["id"]) {
+                            <div>
+                                <p>@comment["first_name"] @comment["last_name"] - @comment["created_at"].ToString("D")</p>
+                                <p>@comment["comment"]</p>
+                            </div>
+                        }
+                    }
+            </div>
+
+            <div class="three-fifths column">
+                <form asp-controller="Wall" asp-action="PostComment" method="POST">
+                    <input type="hidden" name="MessageId" value=@message["id"]>
+                    <span asp-validation-for="Content"></span><input asp-for="Content"><br>
+                    <input type="submit" value="Post Comment">
+                </form>
+            </div>
+            <hr>
+        }
+</div>
