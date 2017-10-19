@@ -2,14 +2,19 @@
     ViewData["Title"] = @ViewBag.TrailName;
 }
 
-<a>Go Home</a>
+<a href="/">Go Home</a>
 
-<h1>@ViewBag.TrailName</h1>
-<h3>Description:</h3>
-<p>@ViewBag.Description</p>
-<h3>Trail Length:</h3>
-<p>@ViewBag.Length</p>
-<h3>Elevation Change:</h3>
-<p>@ViewBag.Elevation</p>
-<p>Longitude - @ViewBag.Longitude</p>
-<p>Latitude - @ViewBag.Latitude</p>
+@{
+    foreach(var each in ViewBag.Trail) {
+        <h1>each.Name</h1>
+        <h3>Description:</h3>
+        <p>each.Description</p>
+        <h3>Trail Length:</h3>
+        <p>each.Length</p>
+        <h3>Elevation Change:</h3>
+        <p>each.Elevation</p>
+        <p>Longitude - each.Longitude</p>
+        <p>Latitude - each.Latitude</p>
+    }
+}
+
