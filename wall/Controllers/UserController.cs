@@ -10,6 +10,13 @@ namespace wall.Controllers
 {
     public class UserController : Controller
     {
+<<<<<<< HEAD
+=======
+        // GET: /Home/
+
+        //NOTE(Devon):
+        //Claire, very nice work overall!  see some of my comments for some ways to improve.
+>>>>>>> 29b41178d0816223e52d0cfbdb24883e98f268e8
         [HttpGet]
         [Route("")]
         public IActionResult Index()
@@ -35,6 +42,7 @@ namespace wall.Controllers
                 return RedirectToAction("Home", "Wall");
             }
             else {
+                //NOTE(Devon):  Do you need to use ViewBag here?
                 ViewBag.errors = ModelState.Values;
                 return View();
             }
