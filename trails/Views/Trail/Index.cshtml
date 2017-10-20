@@ -1,10 +1,16 @@
 @{
     ViewData["Title"] = "Lost in the Woods";
 }
-<h1>Lost in the Woods</h1>
-<h4>List of local hiking trails</h4>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>Lost in the Woods</h1>
+    </div>
+    <div class="panel-body">
+        <h4>List of local hiking trails</h4>
+    </div>
+</div>
 
-<table>
+<table class="table">
     <thead>
         <th>Trail Name</th>
         <th>Trail Length</th>
@@ -13,9 +19,11 @@
     <tbody>
         @{
             foreach(var trail in ViewBag.AllTrails) {
-                <td>@trail.Name</td>
-                <td>@trail.Length Miles</td>
-                <td>@trail.Elevation feet</td>
+                <tr>
+                    <td><a href="/Trail/@trail.Id">@trail.Name</a></td>
+                    <td>@trail.Length Miles</td>
+                    <td>@trail.Elevation feet</td>
+                </tr>
             }
         }
     </tbody>
