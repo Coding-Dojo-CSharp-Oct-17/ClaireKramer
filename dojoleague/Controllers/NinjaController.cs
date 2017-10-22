@@ -30,16 +30,14 @@ namespace dojoleague.Controllers
         [Route("AddNinja")]
         public IActionResult AddNinja(Ninja model, int dojo_id) {
             if(ModelState.IsValid) {
-                Dojo dojo = dojoFactory.GetById(dojo_id);
-                model.dojo = dojo;
-                ninjaFactory.AddNinja(model);
+                ninjaFactory.AddNinja(model, dojo_id);
                 return RedirectToAction("Ninjas");
             }
             else{
                 ViewBag.errors = ModelState.Values;
                 ViewBag.AllNinjas = ninjaFactory.FindAll();
                 ViewBag.AllDojos = ninjaFactory.AllDojos();
-                return View();
+                return View("Ninjas");
             }
         }
 

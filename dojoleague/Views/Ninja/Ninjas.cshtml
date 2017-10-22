@@ -5,7 +5,7 @@
 <a href="/Dojos">Go to Dojos</a>
 
 @model dojoleague.Models.Ninja
-<div class="six columns">
+<div class="five columns">
     <h1>Registered Ninjas</h1>
     <table>
         <thead>
@@ -16,12 +16,12 @@
             @{
                 foreach(var item in ViewBag.AllNinjas) {
                 <tr>
-                    <td><a href="/Ninjas/@item.Ninja.Id">@item.Ninja.Name</a></td>
-                    if(@item.Ninja.dojo_id == null) {
+                    <td><a href="/Ninjas/@item.Id">@item.Name</a></td>
+                    @if(@item.dojo.Id == 1) {
                         <td>Rogue</td>
                     }
                     else{
-                    <td><a href="/Dojos/@item.Dojo.Id">@item.Dojo.Name</a></td>
+                    <td><a href="/Dojos/@item.dojo.Id">@item.dojo.Name</a></td>
                     }
                 </tr>
                 }
@@ -30,7 +30,7 @@
     </table>
 </div>
 
-<div class="six columns">
+<div class="five columns">
     <h1>Register A Ninja</h1>
     <form asp-controller="Ninja" asp-action="AddNinja" method="POST">
         <span asp-validation-for="Name"></span>
@@ -38,10 +38,12 @@
         <span asp-validation-for="Level"></span>
         <label asp-for="Level"></label><input asp-for="Level"><br>
         <label asp-for="dojo"></label><select type="number" name="dojo_id">
-            <option>Rogue</option>
+            <option value="1">Rogue</option>
             @{
                 foreach(var dojo in ViewBag.AllDojos) {
-                    <option value="@dojo.id">@dojo.Name</option>
+                    if(dojo.Id != 1) {
+                        <option value="@dojo.Id">@dojo.Name</option>
+                    }
                 }
             }
         </select>

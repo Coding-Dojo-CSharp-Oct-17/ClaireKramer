@@ -5,15 +5,14 @@
 <h2>Name: @ViewBag.Ninja.Name</h2>
 <p>Ninja Level - @ViewBag.Ninja.Level</p>
 <p>Description: @ViewBag.Ninja.Description</p>
-<p> 
     @{
-        if(@ViewBag.Ninja.dojo_id == null) {
-            Currently Rogue
+        @if(@ViewBag.Ninja.dojo.Id == 1) {
+            <p>Currently Rogue</p>
         }
         else {
-            Current Dojo: <a href="/Dojos/@ViewBag.Ninja.Dojo.Id">@ViewBag.Ninja.Dojo.Name</a>
+            <p>Current Dojo: <a href="/Dojos/@ViewBag.Ninja.dojo.Id">@ViewBag.Ninja.dojo.Name</a></p>
         }
     }
-</p>
+
 
 <a href="/Ninjas">Back to Ninjas</a>

@@ -6,41 +6,50 @@
 <p>Dojo Location - @ViewBag.Dojo.Location</p>
 <p>Information - @ViewBag.Dojo.Info</p>
 
-<h2>Current Members</h2>
-<table>
-    <thead>
-        <th>Ninja</th>
-        <th>Action</th>
-    </thead>
-    <tbody>
-        <tr>
-            @{
-                foreach(var member in @ViewBag.Members) {
-                    <td>@member.Name</td>
-                }
-            }
-            <td><a href="/Banish">Banish</a></td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="five columns">
+        <h2>Current Members</h2>
+        <table>
+            <thead>
+                <th>Ninja</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                    @{
+                        foreach(var member in @ViewBag.Members) {
+                            <tr>
+                            <td><a href="/Ninjas/@member.Id">@member.Name</a></td>
+                            <td><a href="/Banish/@member.Id">Banish</a></td>
+                            </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+    </div>
 
-<h2>Rogue Ninjas</h2>
-<table>
-    <thead>
-        <th>Ninja</th>
-        <th>Action</th>
-    </thead>
-    <tbody>
-        <tr>
-            @{
-                foreach(var ninja in @ViewBag.Rogues) {
-                <td><a href="/Ninjas/@ninja.Id">@ninja.Name</a></td>
-                }
-            }
-            <td><a href="/Dojos/@ViewBag.Dojo.Id/Recruit/@ninja.Id">Recruit</a></td>
-        </tr>
-    </tbody>
-</table>
+    <div class="five columns">
+        <h2>Rogue Ninjas</h2>
+        <table>
+            <thead>
+                <th>Ninja</th>
+                <th>Action</th>
+            </thead>
+            <tbody>  
+                    @{
+                        foreach(var ninja in @ViewBag.Rogues) {
+                        <tr>
+                        <td><a href="/Ninjas/@ninja.Id">@ninja.Name</a></td>
+                        <td><a href="/Dojos/@ViewBag.Dojo.Id/Recruit/@ninja.Id">Recruit</a></td>
+                        </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
 
-<a href="/Dojos">Back to Dojos</a>
-<a href="/Ninjas">Back to Ninjas</a>
+<div class="column">
+    <a href="/Dojos">Back to Dojos</a> &nbsp;&nbsp;
+    <a href="/Ninjas">Back to Ninjas</a>
+</div>

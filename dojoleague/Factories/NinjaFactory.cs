@@ -17,9 +17,9 @@ namespace dojoleague.Factory {
             }
         }
 
-        public void AddNinja(Ninja item) {
+        public void AddNinja(Ninja item, int dojo_id) {
             using (IDbConnection dbConnection = Connection) {
-                string query = "INSERT INTO ninjas (name, level, description) VALUES (@Name, @Level, @Description)";
+                string query = $"INSERT INTO ninjas (name, level, description, dojo_id) VALUES (@Name, @Level, @Description, {dojo_id})";
                 dbConnection.Open();
                 dbConnection.Execute(query, item);
             }
@@ -27,15 +27,20 @@ namespace dojoleague.Factory {
 
         public IEnumerable<Ninja> FindAll() {
             using (IDbConnection dbConnection = Connection) {
+                var query = "SELECT * FROM ninjas JOIN dojos ON ninjas.dojo_id = dojos.id";
                 dbConnection.Open();
-                return dbConnection.Query<Ninja>("SELECT * FROM ninjas JOIN dojos ON ninjas.dojo_id WHERE dojos.id = ninjas.dojo_id");
+                var ninjas = dbConnection.Query<Ninja, Dojo, Ninja>(query, (ninja, dojo) => { ninja.dojo = dojo; return ninja; });
+                return ninjas;
+
             }
         }
 
         public Ninja FindByID(int id) {
             using (IDbConnection dbConnection = Connection) {
+                var query = $"SELECT * FROM ninjas JOIN dojos ON ninjas.dojo_id = dojos.id WHERE ninjas.id = {id}";
                 dbConnection.Open();
-                return dbConnection.Query<Ninja>("SELECT * FROM ninjas JOIN dojos ON ninjas.dojo_id WHERE dojos.id = ninjas.dojo_id WHERE ninja.id = @Id", new { Id = id }).FirstOrDefault();
+                var oneninja = dbConnection.Query<Ninja, Dojo, Ninja>(query, (ninja, dojo) => { ninja.dojo = dojo; return ninja; }).FirstOrDefault();
+                return oneninja;
             }
         }
 
@@ -58,7 +63,7 @@ namespace dojoleague.Factory {
 
         public void Banish(int id) {
             using (IDbConnection dbConnection = Connection) {
-                string query = $"UPDATE ninjas SET dojo_id = null WHERE ninjas.id = {id}";
+                string query = $"UPDATE ninjas SET dojo_id = 1 WHERE ninjas.id = {id}";
                 dbConnection.Open();
                 dbConnection.Execute(query);
             }
@@ -66,7 +71,7 @@ namespace dojoleague.Factory {
 
         public void Recruit(int dojo_id, int ninja_id) {
             using (IDbConnection dbConnection = Connection) {
-                string query = $"UPDATE ninjas SET dojo_id = {dojo_id} WHERE ninja.id = {ninja_id}";
+                string query = $"UPDATE ninjas SET dojo_id = {dojo_id} WHERE ninjas.id = {ninja_id}";
                 dbConnection.Open();
                 dbConnection.Execute(query);
             }

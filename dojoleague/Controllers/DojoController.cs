@@ -43,7 +43,8 @@ namespace dojoleague.Controllers
         [Route("Dojos/{id}")]
         public IActionResult Dojo(int id) {
             ViewBag.Dojo = dojoFactory.GetById(id);
-            ViewBag.Members = dojoFactory.GetNinjasById(id);
+            var dojo = dojoFactory.GetNinjasById(id);
+            ViewBag.Members = dojo.ninjas;
             ViewBag.Rogues = dojoFactory.GetRogues();
             return View();
         }
@@ -59,7 +60,7 @@ namespace dojoleague.Controllers
         [Route("Dojos/{dojo_id}/Recruit/{ninja_id}")]
         public IActionResult Recruit(int dojo_id, int ninja_id) {
             ninjaFactory.Recruit(dojo_id, ninja_id);
-            return RedirectToAction("Dojos/{dojo_id}");
+            return RedirectToAction("Ninjas", "Ninja");
         }
     }
 }
