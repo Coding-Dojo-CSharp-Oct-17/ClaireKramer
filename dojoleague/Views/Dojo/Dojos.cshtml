@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Dojo League - Dojos";
+}
+
+<a href="/Ninjas">Go Back to Ninjas</a>
+
+@model dojoleague.Models.Dojo
+
+<div class="six columns">
+    <h1>All Dojos</h1>
+    <table>
+        <thead>
+            <th>Dojo Name</th>
+        </thead>
+        <tbody>
+            @{
+                foreach(var dojo in ViewBag.AllDojos) {
+                    <tr>
+                        <td><a href="/Dojos/@dojo.Id">@dojo.Name</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="six columns">
+    <h1>Register A Dojo</h1>
+    <form asp-controller="Dojo" asp-action="AddDojo" method="POST">
+        <span asp-validation-for="Name"></span>
+        <label asp-for="Name"></label><input asp-for="Name">
+        <span asp-validation-for="Location"></span>
+        <label asp-for="Location"></label><input asp-for="Location">
+        <span asp-validation-for="Info"></span>
+        <label asp-for="Info"></label><input asp-for="Info">
+        <input type="submit" value="Add">
+    </form>
+</div>
