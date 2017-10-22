@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+
+<a href="/" class="u-pull-right">Add a Review</a>
+@{ 
+    foreach(var review in @ViewBag.AllReviews) {
+        <h3>Review for: @review.Restaurant &nbsp;&nbsp;&nbsp;  @review.Stars stars</h3>
+        <h5>Reviewer: @review.Reviewer, &nbsp; @review.VisitDate.ToString("D")</h5>
+        <p>@review.Content</p>
+        <hr>
+    }
+}
