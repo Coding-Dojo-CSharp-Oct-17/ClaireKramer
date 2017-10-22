@@ -55,5 +55,21 @@ namespace dojoleague.Factory {
                 return dbConnection.Query<Dojo>("SELECT * FROM dojos");
             }
         }
+
+        public void Banish(int id) {
+            using (IDbConnection dbConnection = Connection) {
+                string query = $"UPDATE ninjas SET dojo_id = null WHERE ninjas.id = {id}";
+                dbConnection.Open();
+                dbConnection.Execute(query);
+            }
+        }
+
+        public void Recruit(int dojo_id, int ninja_id) {
+            using (IDbConnection dbConnection = Connection) {
+                string query = $"UPDATE ninjas SET dojo_id = {dojo_id} WHERE ninja.id = {ninja_id}";
+                dbConnection.Open();
+                dbConnection.Execute(query);
+            }
+        }
     }
 }

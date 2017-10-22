@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Dojo League - @ViewBag.Dojo.Name";
+}
+
+<h2>@ViewBag.Dojo.Name</h2>
+<p>Dojo Location - @ViewBag.Dojo.Location</p>
+<p>Information - @ViewBag.Dojo.Info</p>
+
+<h2>Current Members</h2>
+<table>
+    <thead>
+        <th>Ninja</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr>
+            @{
+                foreach(var member in @ViewBag.Members) {
+                    <td>@member.Name</td>
+                }
+            }
+            <td><a href="/Banish">Banish</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Rogue Ninjas</h2>
+<table>
+    <thead>
+        <th>Ninja</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr>
+            @{
+                foreach(var ninja in @ViewBag.Rogues) {
+                <td><a href="/Ninjas/@ninja.Id">@ninja.Name</a></td>
+                }
+            }
+            <td><a href="/Dojos/@ViewBag.Dojo.Id/Recruit/@ninja.Id">Recruit</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="/Dojos">Back to Dojos</a>
+<a href="/Ninjas">Back to Ninjas</a>

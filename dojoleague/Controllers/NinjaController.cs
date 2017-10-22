@@ -23,7 +23,7 @@ namespace dojoleague.Controllers
         {
             ViewBag.AllNinjas = ninjaFactory.FindAll();
             ViewBag.AllDojos = ninjaFactory.AllDojos();
-            return View("Ninjas");
+            return View();
         }
 
         [HttpPost]
@@ -33,13 +33,13 @@ namespace dojoleague.Controllers
                 Dojo dojo = dojoFactory.GetById(dojo_id);
                 model.dojo = dojo;
                 ninjaFactory.AddNinja(model);
-                return RedirectToAction("Ninjas", "Ninja");
+                return RedirectToAction("Ninjas");
             }
             else{
                 ViewBag.errors = ModelState.Values;
                 ViewBag.AllNinjas = ninjaFactory.FindAll();
                 ViewBag.AllDojos = ninjaFactory.AllDojos();
-                return View("Ninjas");
+                return View();
             }
         }
 
@@ -48,7 +48,7 @@ namespace dojoleague.Controllers
         public IActionResult Ninja(int id) {
             Ninja ninja = ninjaFactory.FindByID(id);
             ViewBag.Ninja = ninja;
-            return View("Ninja", "Ninja");
+            return View("Ninja");
         }
     }
 }

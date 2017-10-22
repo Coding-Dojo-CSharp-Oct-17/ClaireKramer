@@ -55,5 +55,12 @@ namespace dojoleague.Factory {
                 }
             }
         }
+
+        public IEnumerable<Ninja> GetRogues() {
+            using (IDbConnection dbConnection = Connection) {
+                dbConnection.Open();
+                return dbConnection.Query<Ninja>("SELECT * FROM ninjas WHERE dojo_id = null");
+            }
+        }
     }
 }
