@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "@ViewBag.CurrentUser.FirstName's Account";
+}
+
+@model bankaccounts.Models.Transcation
+<h1>Welcome, @ViewBag.CurrentUser.FirstName</h1>
+<a href="/Logout">Logout</a>
+<h3>Current Balance: $@ViewBag.CurrentUser.Balance</h3>
+
+<form asp-action="Transcation" asp-controller="Account" method="POST">
+    <span asp-validation-for="Amount"></span>
+    <label asp-for="Amount"></label><input asp-for="Amount">
+    <input type="submit" type="Submit">
+</form>
+
+<div>
+    <table>
+        <thead>
+            <th>Amount</th>
+            <th>Date</th>
+        </thead>
+        <tbody>
+            @{
+                @foreach(var transcation in @ViewBag.AllTranscations) {
+                <tr>
+                    <td>@transcation.Amount</td>
+                    <td>@transcation.CreatedAt</td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
