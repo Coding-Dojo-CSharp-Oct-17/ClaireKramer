@@ -3,46 +3,48 @@
 }
 
 <div class="row">
-    <h1 class="nine columns">Welcome to the Wedding Planner</h1>
+    <h1 class="ten columns">Welcome to the Wedding Planner</h1>
     <a href="/Logout">Logout</a>
 </div>
 
-<table>
-    <thead>
-        <th>Wedding</th>
-        <th>Date</th>
-        <th>Guest</th>
-        <th>Action</th>
-    </thead>
-    <tbody>
-        @{
-            foreach(var wedding in @ViewBag.AllWeddings) {
-                <tr>
-                    <td><a href="Wedding/@wedding.WeddingId">@wedding.Groom and @wedding.Bride</a></td>
-                    <td>@wedding.WeddingDate.ToString("MMM dd, yyyy")</td>
-                    <td>@wedding.Guests.Count</td>
-                    @if(@ViewBag.UserId == @wedding.UserId){
-                        <td><a href="Delete/@wedding.WeddingId">Delete</a></td>
-                    } 
-                    else {
-                        if(@wedding.Guests.Count == 0) {
-                            <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td>
-                        }
+<div class="nine columns">
+    <table>
+        <thead>
+            <th>Wedding</th>
+            <th>Date</th>
+            <th>Guests</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            @{
+                foreach(var wedding in @ViewBag.AllWeddings) {
+                    <tr>
+                        <td><a href="Wedding/@wedding.WeddingId">@wedding.Groom and @wedding.Bride</a></td>
+                        <td>@wedding.WeddingDate.ToString("MMM dd, yyyy")</td>
+                        <td>@wedding.Guests.Count</td>
+                        @if(@ViewBag.UserId == @wedding.UserId){
+                            <td><a href="Delete/@wedding.WeddingId">Delete</a></td>
+                        } 
                         else {
-                            @foreach(var guest in @wedding.Guests) {
-                                if(@ViewBag.UserId == @guest.UserId) {
-                                    <td><a href="Decline/@wedding.WeddingId">Decline Invite</a></td>
-                                } 
-                                else {
-                                    <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td>
-                                }
-                            }    
-                        }
-                    }   
-                </tr>
+                            if(@wedding.Guests.Count == 0) {
+                                <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td>
+                            }
+                            else {
+                                @foreach(var guest in @wedding.Guests) {
+                                    if(@ViewBag.UserId == @guest.UserId) {
+                                        <td><a href="Decline/@wedding.WeddingId">Decline Invite</a></td>
+                                    } 
+                                    else {
+                                        <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td>
+                                    }
+                                }    
+                            }
+                        }   
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<a href="NewWedding">New Wedding</a>
+    <a href="NewWedding" class="button button-primary u-pull-right">New Wedding</a>
+</div>

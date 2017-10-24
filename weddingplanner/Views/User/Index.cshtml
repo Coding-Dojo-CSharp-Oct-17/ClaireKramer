@@ -5,28 +5,20 @@
 
 @model weddingplanner.Models.User
 
-@{
-    if(@ViewBag.errors != null) {
-        if(@ViewBag.errors.Count > 1) {
-            foreach(var error in @ViewBag.errors) {
-                <p>@error</p>
-            }
-        }
-        <p>@ViewBag.errors</p>
-    }
-}
+<p>@ViewBag.errors</p>
+
 <div class="row">
     <div class="five columns">
         <h1>Register</h1>
         <form asp-action="Register" asp-controller="User" method="Post">
             <span asp-validation-for="FirstName"></span>
-            <label asp-for="FirstName"></label><input asp-for="FirstName">
+            <label asp-for="FirstName"></label><input asp-for="FirstName"><br>
             <span asp-validation-for="LastName"></span>
-            <label asp-for="LastName"></label><input asp-for="LastName">
+            <label asp-for="LastName"></label><input asp-for="LastName"><br>
             <span asp-validation-for="Email"></span>
-            <label asp-for="Email"></label><input asp-for="Email">
+            <label asp-for="Email"></label><input asp-for="Email"><br>
             <span asp-validation-for="Password"></span>
-            <label asp-for="Password"></label><input asp-for="Password">
+            <label asp-for="Password"></label><input asp-for="Password"><br>
             <span asp-validation-for="ConfirmPW"></span>
             <label asp-for="ConfirmPW"></label><input asp-for="ConfirmPW"><br>
             <input type="submit" value="Register">

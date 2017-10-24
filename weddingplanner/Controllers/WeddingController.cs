@@ -38,6 +38,9 @@ namespace weddingplanner.Controllers {
         [HttpPost]
         [Route("AddWedding")]
         public IActionResult AddWedding(Wedding model) {
+            if(model.WeddingDate < DateTime.Now) {
+                ModelState.AddModelError("WeddingDate", "Wedding must be in the future");
+            }
             if(ModelState.IsValid) {
                 _context.Add(model);
                 _context.SaveChanges();
@@ -68,7 +71,7 @@ namespace weddingplanner.Controllers {
                                             .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
             CurrentWedding.Guests.Add(CurrentUser);
             _context.SaveChanges();
-            return Redirect("Dashboard");
+            return RedirectToAction("Dashboard");
         }
 
         [HttpPost]

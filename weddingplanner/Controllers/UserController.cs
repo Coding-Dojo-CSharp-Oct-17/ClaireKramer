@@ -31,7 +31,6 @@ namespace weddingplanner.Controllers
                 return RedirectToAction("Dashboard", "Wedding");
             }
             else {
-                ViewBag.errors = ModelState.Values;
                 return View("Index");
             }
         }
