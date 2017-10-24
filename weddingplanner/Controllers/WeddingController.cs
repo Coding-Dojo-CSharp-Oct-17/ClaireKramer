@@ -17,16 +17,21 @@ namespace weddingplanner.Controllers {
         [Route("Dashboard")]
         public IActionResult Dashboard()
         {
-            List<Wedding> Weddings = _context.Weddings
-                                            .Include(wedding => wedding.Guests)
-                                            .ToList();
-            ViewBag.AllWeddings = Weddings;
+            if(HttpContext.Session.GetInt32("UserId") == null) {
+                return RedirectToAction("Index", "User");
+            }
+            List<Wedding> AllWeddings = _context.Weddings
+                                        .Include(wedding => wedding.Guests)
+                                        .ToList();
+            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.AllWeddings = AllWeddings;
             return View();
         }
 
         [HttpGet]
         [Route("NewWedding")]
         public IActionResult NewWedding() {
+            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View();
         }
 
@@ -34,6 +39,8 @@ namespace weddingplanner.Controllers {
         [Route("AddWedding")]
         public IActionResult AddWedding(Wedding model) {
             if(ModelState.IsValid) {
+                _context.Add(model);
+                _context.SaveChanges();
                 return RedirectToAction("Dashboard");
             }
             else {

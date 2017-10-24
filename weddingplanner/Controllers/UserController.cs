@@ -60,7 +60,7 @@ namespace weddingplanner.Controllers
         [Route("Logout")]
         public IActionResult Logout() {
             HttpContext.Session.Clear();
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
     }

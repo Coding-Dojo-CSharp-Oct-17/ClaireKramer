@@ -2,8 +2,10 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Welcome to the Wedding Planner</h1>
-<a href="Logout">Logout</a>
+<div class="row">
+    <h1 class="nine columns">Welcome to the Wedding Planner</h1>
+    <a href="/Logout">Logout</a>
+</div>
 
 <table>
     <thead>
@@ -14,18 +16,22 @@
     </thead>
     <tbody>
         @{
-            @foreach(var wedding in ViewBag.AllWeddings) {
+            @foreach(var wedding in @ViewBag.AllWeddings) {
                 <tr>
-                    <td>@wedding.Groom & @wedding.Bride</td>
-                    <td>@wedding.WeddingDate.ToString("MMM dd yyyy")</td>
-                    <td>Number of Guests</td>
-                    @if(){
+                    <td><a href="Wedding/@wedding.WeddingId">@wedding.Groom and @wedding.Bride</a></td>
+                    <td>@wedding.WeddingDate.ToString("MMM dd, yyyy")</td>
+                    <td>@wedding.Guests.Count</td>
+                    @if(@ViewBag.UserId == @wedding.UserId){
                         <td><a href="Delete">Delete</a></td>
-                    } else if () {
-                        <td><a href="Decline">Decline Invite</a></td>
                     } else {
-                        <td><a href="RSVP">RSVP</a></td>
-                    }
+                        @foreach(var guest in @wedding.Guests) {
+                            @if(@ViewBag.UserId == guest.UserId) {
+                                <td><a href="Decline">Decline Invite</a></td>
+                            } 
+                            else {
+                                <td><a href="RSVP">RSVP</a></td>
+                            }
+                    }   
                 </tr>
             }
         }

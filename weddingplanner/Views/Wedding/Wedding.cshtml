@@ -2,18 +2,20 @@
     ViewData["Title"] = "Wedding";
 }
 
-<div>
-    <h1>@ViewBag.CurrentWedding.Groom and @ViewBag.CurrentWedding.Bride Wedding</h1>
-    <a href="Dashboard">Dashboard</a>
-    <a href="Logout">Logout</a>
+<div class="row">
+    <h1 class="eight columns">Wedding of @ViewBag.CurrentWedding.Groom and @ViewBag.CurrentWedding.Bride</h1>
+    <a href="/Dashboard">Dashboard</a>
+    <a href="/Logout">Logout</a>
 </div>
 
-<h3>Date: @ViewBag.CurrentWedding.WeddingDate.ToString("MMM dd yyyy")</h3>
-<h3>Guests: </h3>
-<li>
-    @{
-        @foreach(var guest in @ViewBag.CurrentWedding.Guests) {
-            <ul>guest.FirstName guest.LastName</ul>
+<h3>Date: @ViewBag.CurrentWedding.WeddingDate.ToString("MMM dd, yyyy")</h3>
+@if(@ViewBag.CurrentWedding.Guests.Count > 0) {
+    <h3>Guests: </h3>
+    <li>
+        @{
+            @foreach(var guest in @ViewBag.CurrentWedding.Guests) {
+                <ul>@guest.FirstName @guest.LastName</ul>
+            }
         }
-    }
-</li>
+    </li>
+}
