@@ -11,11 +11,11 @@
 <h3>Date: @ViewBag.CurrentWedding.WeddingDate.ToString("MMM dd, yyyy")</h3>
 @if(@ViewBag.CurrentWedding.Guests.Count > 0) {
     <h3>Guests: </h3>
-    <li>
+    <ul>
         @{
             @foreach(var guest in @ViewBag.CurrentWedding.Guests) {
-                <ul>@guest.FirstName @guest.LastName</ul>
+                    <li>@guest.User.FirstName @guest.User.LastName</li>
             }
         }
-    </li>
+    </ul>
 }

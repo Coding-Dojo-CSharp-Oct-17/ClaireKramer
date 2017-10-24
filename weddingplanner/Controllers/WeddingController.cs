@@ -20,13 +20,19 @@ namespace weddingplanner.Controllers {
             if(HttpContext.Session.GetInt32("UserId") == null) {
                 return RedirectToAction("Index", "User");
             }
+            User CurrentUser = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
             List<Wedding> AllWeddings = _context.Weddings
                                         .Include(wedding => wedding.Guests)
+                                            .ThenInclude(guest => guest.User)
                                         .ToList();
-            User CurrentUser = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            List<Rsvp> UsersRsvps = _context.Rsvps
+                                            .Include(rsvp => rsvp.User)
+                                            .Where(rsvp => rsvp.User = CurrentUser)
+                                            .ToList();
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             ViewBag.AllWeddings = AllWeddings;
             ViewBag.CurrentUser = CurrentUser;
+            ViewBag.UsersRsvps = UsersRsvps;
             return View();
         }
 
@@ -59,6 +65,7 @@ namespace weddingplanner.Controllers {
         public IActionResult Wedding(int WeddingId) {
             Wedding CurrentWedding = _context.Weddings
                                         .Include(wedding => wedding.Guests)
+                                            .ThenInclude(guest => guest.User)
                                         .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
             ViewBag.CurrentWedding = CurrentWedding;
             return View("Wedding");
@@ -70,8 +77,15 @@ namespace weddingplanner.Controllers {
             User CurrentUser = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
             Wedding CurrentWedding = _context.Weddings
                                             .Include(wedding => wedding.Guests)
+                                                .ThenInclude(guest => guest.User)
                                             .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
-            CurrentWedding.Guests.Add(CurrentUser);
+            Rsvp NewRsvp = new Rsvp {
+                UserId = CurrentUser.UserId,
+                User = CurrentUser,
+                WeddingId = CurrentWedding.WeddingId,
+                Wedding = CurrentWedding
+            };
+            CurrentWedding.Guests.Add(NewRsvp);
             _context.SaveChanges();
             return RedirectToAction("Dashboard");
         }
@@ -80,10 +94,12 @@ namespace weddingplanner.Controllers {
         [Route("Decline/{WeddingId}")]
         public IActionResult Decline(int WeddingId) {
             User CurrentUser = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            Rsvp CurrentRsvp = _context.Rsvps.SingleOrDefault(rsvp => rsvp.UserId == HttpContext.Session.GetInt32("UserId") && rsvp.WeddingId == WeddingId);
             Wedding CurrentWedding = _context.Weddings
                                             .Include(wedding => wedding.Guests)
+                                                .ThenInclude(guest => guest.User)
                                             .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
-            CurrentWedding.Guests.Remove(CurrentUser);
+            CurrentWedding.Guests.Remove(CurrentRsvp);
             _context.SaveChanges();
             return RedirectToAction("Dashboard");
         }

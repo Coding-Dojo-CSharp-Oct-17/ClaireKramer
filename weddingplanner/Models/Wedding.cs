@@ -20,10 +20,9 @@ namespace weddingplanner.Models {
         public string Address { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
-        public List<User> Guests { get; set; }
+        public List<Rsvp> Guests { get; set; }
         public Wedding() {
-            Guests = new List<User>();
+            Guests = new List<Rsvp>();
         }
-
     }
 }
