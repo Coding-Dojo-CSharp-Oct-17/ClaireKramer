@@ -17,7 +17,39 @@ namespace weddingplanner.Controllers {
         [Route("Dashboard")]
         public IActionResult Dashboard()
         {
+            List<Wedding> Weddings = _context.Weddings
+                                            .Include(wedding => wedding.Guests)
+                                            .ToList();
+            ViewBag.AllWeddings = Weddings;
             return View();
+        }
+
+        [HttpGet]
+        [Route("NewWedding")]
+        public IActionResult NewWedding() {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("AddWedding")]
+        public IActionResult AddWedding(Wedding model) {
+            if(ModelState.IsValid) {
+                return RedirectToAction("Dashboard");
+            }
+            else {
+                ViewBag.errors = ModelState.Values;
+                return View("NewWedding");
+            }
+        }
+
+        [HttpGet]
+        [Route("Wedding/{WeddingId}")]
+        public IActionResult Wedding(int WeddingId) {
+            Wedding CurrentWedding = _context.Weddings
+                                        .Include(wedding => wedding.Guests)
+                                        .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
+            ViewBag.CurrentWedding = CurrentWedding;
+            return View("Wedding");
         }
     }
 }
