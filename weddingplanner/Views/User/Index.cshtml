@@ -4,6 +4,17 @@
 
 
 @model weddingplanner.Models.User
+
+@{
+    if(@ViewBag.errors != null) {
+        if(@ViewBag.errors.Count > 1) {
+            foreach(var error in @ViewBag.errors) {
+                <p>@error</p>
+            }
+        }
+        <p>@ViewBag.errors</p>
+    }
+}
 <div class="row">
     <div class="five columns">
         <h1>Register</h1>

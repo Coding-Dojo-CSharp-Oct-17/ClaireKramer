@@ -58,5 +58,39 @@ namespace weddingplanner.Controllers {
             ViewBag.CurrentWedding = CurrentWedding;
             return View("Wedding");
         }
+
+        [HttpPost]
+        [Route("RSVP/{WeddingId}")]
+        public IActionResult RSVP(int WeddingId) {
+            User CurrentUser = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            Wedding CurrentWedding = _context.Weddings
+                                            .Include(wedding => wedding.Guests)
+                                            .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
+            CurrentWedding.Guests.Add(CurrentUser);
+            _context.SaveChanges();
+            return Redirect("Dashboard");
+        }
+
+        [HttpPost]
+        [Route("Decline/{WeddingId}")]
+        public IActionResult Decline(int WeddingId) {
+            User CurrentUser = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            Wedding CurrentWedding = _context.Weddings
+                                            .Include(wedding => wedding.Guests)
+                                            .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
+            CurrentWedding.Guests.Remove(CurrentUser);
+            _context.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
+
+        [HttpPost]
+        [Route("Delete/{WeddingId}")]
+        public IActionResult Delete(int WeddingId) {
+            Wedding CurrentWedding = _context.Weddings
+                                            .SingleOrDefault(wedding => wedding.WeddingId == WeddingId);
+            _context.Weddings.Remove(CurrentWedding);
+            _context.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
     }
 }
