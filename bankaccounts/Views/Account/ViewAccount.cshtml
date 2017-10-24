@@ -1,11 +1,11 @@
 @{
-    ViewData["Title"] = "@ViewBag.CurrentUser.FirstName's Account";
+    ViewData["Title"] = "@ViewBag.UserInfo.FirstName's Account";
 }
 
 @model bankaccounts.Models.Transcation
-<h1>Welcome, @ViewBag.CurrentUser.FirstName</h1>
+<h1>Welcome, @ViewBag.UserInfo.FirstName</h1>
 <a href="/Logout">Logout</a>
-<h3>Current Balance: $@ViewBag.CurrentUser.Balance</h3>
+<h3>Current Balance: $@ViewBag.UserInfo.Balance</h3>
 
 <form asp-action="Transcation" asp-controller="Account" method="POST">
     <span asp-validation-for="Amount"></span>
@@ -21,10 +21,10 @@
         </thead>
         <tbody>
             @{
-                @foreach(var transcation in @ViewBag.AllTranscations) {
+                @foreach(var transcation in ViewBag.UserInfo.Transcations) {
                 <tr>
                     <td>@transcation.Amount</td>
-                    <td>@transcation.CreatedAt</td>
+                    <td>@transcation.CreatedAt.ToString("MMM dd yyyy")</td>
                 </tr>
                 }
             }

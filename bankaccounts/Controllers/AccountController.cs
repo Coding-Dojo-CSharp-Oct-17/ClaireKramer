@@ -17,14 +17,20 @@ namespace bankaccounts.Controllers {
         [HttpGet]
         [Route("Account/{user_id}")]
         public IActionResult ViewAccount(int user_id) {
+            if(HttpContext.Session.GetInt32("UserId") == null) {
+                return RedirectToAction("Login", "User");
+            }
             if(HttpContext.Session.GetInt32("UserId") != user_id) {
                 int? UserId = HttpContext.Session.GetInt32("UserId");
                 return Redirect($"/Account/{UserId}");
             }
-            User CurrentUser = _context.Users.SingleOrDefault(user => user.Id == HttpContext.Session.GetInt32("UserId"));
-            List<Transcation> AllTranscations = _context.Transcations.OrderBy(Transcation => Transcation.CreatedAt).ToList();
-            ViewBag.AllTranscations = AllTranscations;
-            ViewBag.CurrentUser = CurrentUser;
+            User currentuser = _context.Users
+                                .Include(user => user.Transcations)
+                                .Where(user => user.Id == user_id).SingleOrDefault();
+            if(currentuser.Transcations != null) {
+                currentuser.Transcations = currentuser.Transcations.OrderByDescending(transcation => transcation.CreatedAt).ToList();
+            }
+            ViewBag.UserInfo = currentuser;
             return View();
         }
 
