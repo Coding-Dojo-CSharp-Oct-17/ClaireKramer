@@ -6,16 +6,16 @@ namespace weddingplanner.Models {
     public class User {
         [Key]
         public int UserId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Required")]
         [Display(Name = "First Name:")]
         public string FirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Required")]
         [Display(Name = "Last Name:")]
         public string LastName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Required")]
         [Display(Name = "Email:")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Required")]
         [MinLength(8)]
         [Display(Name = "Password:")]
         public string Password { get; set; }

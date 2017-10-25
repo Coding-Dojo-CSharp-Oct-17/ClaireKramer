@@ -25,10 +25,16 @@ namespace weddingplanner.Controllers
         [HttpPost]
         [Route("Register")]
         public IActionResult Register(User model) {
+            User CheckEmail = _context.Users.SingleOrDefault(user => user.Email == model.Email);
+            if(CheckEmail != null) {
+                ViewBag.errors = "Email already registered to an account";
+                return View("Index");
+            }
             if(ModelState.IsValid) {
                 _context.Add(model);
                 _context.SaveChanges();
-                return RedirectToAction("Dashboard", "Wedding");
+                ViewBag.errors = "Successfully Registered! You may now login!";
+                return View("Index");
             }
             else {
                 return View("Index");

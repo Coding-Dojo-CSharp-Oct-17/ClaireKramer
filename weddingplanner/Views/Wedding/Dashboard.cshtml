@@ -30,12 +30,18 @@
                                 <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td>
                             }
                             else {
-                                    if(@wedding.Guests.Contains(@ViewBag.CurrentUser.UserId)) {
+                                int Count = 0;
+                                @foreach(var guest in @wedding.Guests) {
+                                    @if(@guest.User == @ViewBag.CurrentUser) {
+                                        Count = 1;
+                                    }
+                                }
+                                if(Count == 1) {
                                     <td><a href="Decline/@wedding.WeddingId">Decline Invite</a></td>
-                                    } 
-                                    else {
-                                    <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td>
-                                    }  
+                                } 
+                                else {
+                                    <td><a href="RSVP/@wedding.WeddingId">RSVP</a></td> 
+                                } 
                             }
                         }   
                     </tr>
