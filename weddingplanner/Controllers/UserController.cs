@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using weddingplanner.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace weddingplanner.Controllers
 {
@@ -32,6 +33,9 @@ namespace weddingplanner.Controllers
             }
             if(ModelState.IsValid) {
                 _context.Add(model);
+                PasswordHasher<User> Hasher = new PasswordHasher<User>();
+                model.Password = Hasher.HashPassword(model, model.Password);
+                model.ConfirmPW = Hasher.HashPassword(model, model.ConfirmPW);
                 _context.SaveChanges();
                 ViewBag.errors = "Successfully Registered! You may now login!";
                 return View("Index");
@@ -46,7 +50,8 @@ namespace weddingplanner.Controllers
         public IActionResult Login(string Email, string Password) {
             User CheckEmail = _context.Users.SingleOrDefault(user => user.Email == Email);
             if(CheckEmail != null) {
-                if(Password == CheckEmail.Password) {
+                var Hasher = new PasswordHasher<User>();
+                if(0 != Hasher.VerifyHashedPassword(CheckEmail, CheckEmail.Password, Password)) {
                     HttpContext.Session.SetInt32("UserId", CheckEmail.UserId);
                     return RedirectToAction("Dashboard", "Wedding");
                 }
