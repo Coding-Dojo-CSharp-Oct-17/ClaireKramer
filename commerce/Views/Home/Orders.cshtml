@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<nav>
+    <ul>
+        <li><a href="/">Dashboard</a></li> |
+        <li><a href="/Products">Products</a></li> |
+        <li><a href="/Orders">Orders</a></li> |
+        <li><a href="/Customers">Customers</a></li>
+    </ul>
+</nav>
+
+<h3>Add a new order</h3>
+<form asp-action="NewOrder" asp-controller="Home" method="Post">
+    <select asp-for="CustomerId">
+        @{
+            foreach(var customer in @ViewBag.AllCustomers) {
+                <option value="@customer.CustomerId">@customer.CustomerName</option>
+            }
+        }
+    </select>
+    <select asp-for="ProductId">
+        @{
+            foreach(var product in @ViewBag.AllProducts) {
+                <option value="@product.ProductId">@product.ProductName</option>
+            }
+        }
+    </select>
+    <label asp-for="OrderQuantity"></label><input asp-for="OrderQuantity">
+    <input type="submit" value="Order">
+</form>
+
+<div>
+<table>
+    <thead>
+        <th>Customer Name</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Date</th>
+    </thead>
+    <tbody>
+        @{
+            foreach(var order in @ViewBag.AllOrders) {
+                <td>@order.Customer.CustomerName</td>
+                <td>@order.Product.ProductName</td>
+                <td>@order.OrderQuantity</td>
+                <td>@order.CreatedAt.ToString("MMM dd, yyyy")</td>
+            }
+        }
+    </tbody>
+</table>
+</div>

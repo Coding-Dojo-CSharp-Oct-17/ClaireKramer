@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<nav>
+    <ul>
+        <li><a href="/">Dashboard</a></li> |
+        <li><a href="/Products">Products</a></li> |
+        <li><a href="/Orders">Orders</a></li> |
+        <li><a href="/Customers">Customers</a></li>
+    </ul>
+</nav>
+
+<h3>Add a new customer</h3>
+<form asp-action="NewCustomer" asp-controller="Home" method="Post">
+    <span asp-validation-for="CustomerName"></span>
+    <label asp-for="CustomerName"></label><input asp-for="CustomerName">
+    <input type="submit" value="Add">
+</form>
+
+<table>
+    <thead>
+        <th>Customer Name</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        @{
+            foreach(var customer in @ViewBag.AllCustomers) {
+                <td>@customer.CustomerName</td>
+                <td>@customer.CreatedAt.ToString("MMM dd, yyyy")</td>
+                <td><a href="Remove/@customer.CustomerId">Remove</a></td>
+            }
+        }
+    </tbody>
+</table>
