@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace commerce.Models {
     public class Order {
         public int OrderId { get; set; }
+        [Display(Name = "Quantity:")]
         public int OrderQuantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CustomerId { get; set; }

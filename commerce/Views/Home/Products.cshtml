@@ -2,46 +2,46 @@
     ViewData["Title"] = "Products";
 }
 
-<nav>
-    <ul>
-        <li><a href="/">Dashboard</a></li> |
-        <li><a href="/Products">Products</a></li> |
-        <li><a href="/Orders">Orders</a></li> |
-        <li><a href="/Customers">Customers</a></li>
-    </ul>
-</nav>
-
-<div>
-    <div>
-        <form asp-action="Search" asp-controller="Home" method="Post">
-            <input type="text" name="SearchedText">
-            <input type="submit" value="Filter">
-        </form>
+@model commerce.Models.Product 
+<header>
+    <div class="container">
+        <a href="/">Dashboard</a> | <a href="/Products">Products</a> | <a href="/Orders">Orders</a></li> | <a href="/Customers">Customers</a>
     </div>
-    <div>
-        <h4>Add a new product</h4>
-        <form asp-action="NewProduct" asp-controller="Home" method="Post">
-            <span asp-validation-for="ProductName"></span>
-            <label asp-for="ProductName"></label><input asp-for="ProductName"><br>
-            <span asp-validation-for="ImageUrl"></span>
-            <label asp-for="ImageUrl"></label><input asp-for="ImageUrl"><br>
-            <span asp-validation-for="Description"></span>
-            <label asp-for="Description"></label><input asp-for="Description"><br>
-            <span asp-validation-for="ProductQuantity"></span>
-            <label asp-for="ProductQuantity"></label><input asp-for="ProductQuantity"><br>
-            <input type="submit" value="Create">
-        </form>
-    </div>
-</div>
+</header>
 
-<div>
-    @{
-        foreach(var product in @ViewBag.AllProducts) {
-            <div>
-                <img src="@product.ImageUrl">
-                <h4>@product.ProductName</h4>
-                <h4>(@product.ProductQuantity left)</h4>
-            </div>
+<div class="row">
+    <div class="three columns">
+        <!--<div>
+            <form asp-action="Search" asp-controller="Home" method="Post">
+                <input type="text" name="SearchedText">
+                <input type="submit" value="Filter">
+            </form>
+        </div>-->
+        <div>
+            <h4>Add a new product</h4>
+            <form asp-action="NewProduct" asp-controller="Home" method="Post">
+                <span asp-validation-for="ProductName"></span>
+                <label asp-for="ProductName"></label><input asp-for="ProductName"><br>
+                <span asp-validation-for="ImageUrl"></span>
+                <label asp-for="ImageUrl"></label><input asp-for="ImageUrl"><br>
+                <span asp-validation-for="Description"></span>
+                <label asp-for="Description"></label><input asp-for="Description"><br>
+                <span asp-validation-for="ProductQuantity"></span>
+                <label asp-for="ProductQuantity"></label><input asp-for="ProductQuantity"><br>
+                <input type="submit" value="Create">
+            </form>
+        </div>
+    </div>
+
+    <div class="eight columns">
+        @{
+            foreach(var product in @ViewBag.AllProducts) {
+                <div class="four columns">
+                    <img src="@product.ImageUrl" class="u-full-width">
+                    <h5>@product.ProductName</h5>
+                    <p>(@product.ProductQuantity left)</p>
+                </div>
+            }
         }
-    }
+    </div>
 </div>

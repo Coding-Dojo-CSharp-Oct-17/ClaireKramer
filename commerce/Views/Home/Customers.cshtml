@@ -2,14 +2,13 @@
     ViewData["Title"] = "Customers";
 }
 
-<nav>
-    <ul>
-        <li><a href="/">Dashboard</a></li> |
-        <li><a href="/Products">Products</a></li> |
-        <li><a href="/Orders">Orders</a></li> |
-        <li><a href="/Customers">Customers</a></li>
-    </ul>
-</nav>
+@model commerce.Models.Customer
+
+<header>
+    <div class="container">
+        <a href="/">Dashboard</a> | <a href="/Products">Products</a> | <a href="/Orders">Orders</a></li> | <a href="/Customers">Customers</a>
+    </div>
+</header>
 
 <h3>Add a new customer</h3>
 <form asp-action="NewCustomer" asp-controller="Home" method="Post">
@@ -27,9 +26,11 @@
     <tbody>
         @{
             foreach(var customer in @ViewBag.AllCustomers) {
-                <td>@customer.CustomerName</td>
-                <td>@customer.CreatedAt.ToString("MMM dd, yyyy")</td>
-                <td><a href="Remove/@customer.CustomerId">Remove</a></td>
+                <tr>
+                    <td>@customer.CustomerName</td>
+                    <td>@customer.CreatedAt.ToString("MMM dd, yyyy")</td>
+                    <td><a href="Remove/@customer.CustomerId">Remove</a></td>
+                </tr>
             }
         }
     </tbody>

@@ -2,46 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-<nav>
-    <ul>
-        <li><a href="/">Dashboard</a></li> |
-        <li><a href="/Products">Products</a></li> |
-        <li><a href="/Orders">Orders</a></li> |
-        <li><a href="/Customers">Customers</a></li>
-    </ul>
-</nav>
+<header>
+    <div class="container">
+        <a href="/">Dashboard</a> | <a href="/Products">Products</a> | <a href="/Orders">Orders</a></li> | <a href="/Customers">Customers</a>
+    </div>
+</header>
 
-<div>
+<!--<div>
     <form asp-action="Search" asp-action="Home" method="Post">
         <input asp-for="ProductName">
         <input type="submit" value="Filter">
     </form>
-</div>
+</div>-->
 
-<div>
-    @{
-        foreach(var product in @ViewBag.RecentProducts) {
-            <div>
-                <img src="@product.ImageUrl">
-                <h5>@product.ProductName</h5>
-                <h5>(@product.ProductQuantity left)</h5>
-            </div>
+<div class="eleven columns">
+    <div class="row">
+        @{
+            foreach(var product in @ViewBag.RecentProducts) {
+                <div class="three columns">
+                    <img src="@product.ImageUrl" class="u-full-width">
+                    <h5>@product.ProductName</h5>
+                    <p>(@product.ProductQuantity left)</p>
+                </div>
+            }
         }
-    }
+    </div>
     <a href="/Products">show more...</a>
 </div>
 
-<div>
-    <h4>Recent Orders</h4>
-    @{
-        foreach(var order in @ViewBag.RecentOrders) {
-            <p>@order.Customer.CustomerName purchased @order.OrderQuantity @order.Product.ProductName... @order.CreatedAt</p>
+<div class="row">
+    <div class="u-full-width">
+        <h4>Recent Orders</h4>
+        @{
+            foreach(var order in @ViewBag.RecentOrders) {
+                <p>@order.Customer.CustomerName purchased @order.OrderQuantity @order.Product.ProductName... @order.CreatedAt</p>
+            }
         }
-    }
-    <a href="/Orders">show all orders...</a>
+        <a href="/Orders">show all orders...</a>
+    </div>
 </div>
 
-<div>
+<div class="u-full-width">
     <h4>New Customers</h4>
     @{
         foreach(var customer in @ViewBag.NewCustomers) {
